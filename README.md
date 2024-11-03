@@ -1,4 +1,10 @@
-This project is hosted live at [random.com](https://random.com). It's built using **Next.js**, **Prisma**, **NextAuth**, and **TanStack Query** to create a robust, full-stack application that efficiently handles data fetching, server-side rendering, and authentication.
+## Live Demo
+
+You can view the live demo of the project at [Live URL](https://umair-duseca-task.netlify.app/)
+
+<!-- This project is hosted live at [https://umair-duseca-task.netlify.app/](https://umair-duseca-task.netlify.app/). -->
+
+It's built using **Next.js**, **Prisma**, **NextAuth**, and **TanStack Query** to create a robust, full-stack application that efficiently handles data fetching, server-side rendering, and authentication.
 
 
 ## Getting Started
@@ -9,7 +15,7 @@ Then, run in the development mode:
 ```bash
 npm install --force
 # or
-yarn dev
+npm run dev
 # or
 pnpm dev
 # or
