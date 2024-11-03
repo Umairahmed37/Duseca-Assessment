@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(uuid()) @map("_id")
+  email         String   @unique
+  name          String?
+  password      String
+  role          Role
+  tasks         Task[]   @relation("UserTasks")
+  managedUsers  User[]   @relation("ManagerUsers") // Represents users managed by this manager
+  manager       User?    @relation("ManagerUsers", fields: [managerId], references: [id], onDelete: NoAction, onUpdate: NoAction) // Represents the manager of this user
+  managerId     String?  // Nullable because not all users will have a manager
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+
+model Task {
+  id          String     @id @default(uuid()) @map("_id")
+  title       String
+  description String?
+  dueDate     DateTime
+  status      TaskStatus
+  userId      String
+  user        User       @relation("UserTasks", fields: [userId], references: [id])
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  USER
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
