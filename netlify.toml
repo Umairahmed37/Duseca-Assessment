@@ -1,0 +1,3 @@
+[build]
+  command = "npm install --force && npm run build"
+  publish = ".next" # or the directory where your build output goes, e.g., `.next` for Next.js
