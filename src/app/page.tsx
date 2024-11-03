@@ -1,44 +1,39 @@
 'use client'
 import Loader from '@/components/Loader'
 import PrimaryButton from '@/components/PrimaryButton'
-import { Role } from '@prisma/client'
-import { useSession } from 'next-auth/react'
-import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 const page = () => {
-   const session = useSession()
-   const [hrefLink, sethrefLink] = useState('')
 
-   // EFFECT TO REDIRECT ACCORDING TO HIS ROLE
-   useEffect(() => {
-      let role = session.data?.user.role
-      console.log(role)
-
-      if (role === Role.ADMIN) {
-         sethrefLink('/Dashboard/Admin/ManageUsers')
-      } else if (role === Role.MANAGER) {
-         sethrefLink('/Dashboard/Manager/Tasks')
-      } else {
-         sethrefLink('/Dashboard/User/Tasks')
-      }
-   }, [session.data, session.status])
-
+   const DashboardLinks = [
+      {
+         Name: "Admin Dashboard",
+         Link: "/Dashboard/Admin/ManageUsers"
+      },
+      {
+         Name: "Manager Dashboard",
+         Link: "/Dashboard/Manager/Tasks"
+      },
+      {
+         Name: "User Dashboard",
+         Link: "/Dashboard/User/Tasks"
+      },
+   ]
 
 
    return (
-      <>
-         <Link href={hrefLink}>
-            <PrimaryButton parentClassName='text-center mx-auto mt-[20%] w-fit bg-black text-white px-5 py-2 rounded-md'>
-               {
-                  session.status == 'loading' ?
-                     <Loader /> :
-                     "Go To Dashboard"
-               }
-            </PrimaryButton>
-         </Link>
-      </>
+      <div className='flex justify-center items-center h-screen'>
+         <div className='flex flex-row space-x-4 -mt-10 items-baseline space-y-4'> {/* Adjust space-y-4 for spacing between buttons */}
+            {DashboardLinks.map(link => (
+               <div key={link.Name} className='cursor-pointer' onClick={() => redirect(link.Link)}>
+                  <PrimaryButton parentClassName='text-center mx-auto w-fit bg-black text-white px-5 py-2 rounded-md'>
+                     {link.Name}
+                  </PrimaryButton>
+               </div>
+            ))}
+         </div>
+      </div>
    )
 }
 
